@@ -48,8 +48,11 @@ static BOOL shouldDecodePlusSymbols = YES;
 @implementation NSString (JLRoutes)
 
 - (NSString *)JLRoutes_URLDecodedString {
-    NSString *input = shouldDecodePlusSymbols ? [self stringByReplacingOccurrencesOfString:@"+" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, self.length)] : self;
-    return [input stringByRemovingPercentEncoding];
+	NSString *input = shouldDecodePlusSymbols ? [self stringByReplacingOccurrencesOfString:@"+" withString:@" " options:NSLiteralSearch range:NSMakeRange(0, self.length)] : self;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	return [input stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
 }
 
 - (NSDictionary *)JLRoutes_URLParameterDictionary {
